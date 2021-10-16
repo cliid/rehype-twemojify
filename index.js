@@ -20,19 +20,44 @@ export default function rehypeTwemojify(options = {}) {
   return (tree) => {
     visit(tree, 'text', (node) => {
       if (EmojiRegExp.test(node.value)) {
-        node = {
-          type: 'element',
-          tagName: 'img',
-          properties: {
-            className: ['emoji'],
-            draggable: false,
-            alt: node.value,
-            src: `https://twemoji.maxcdn.com/v/latest/svg/${twemoji.convert.toCodePoint(
-              node.value
-            )}.svg`
-          },
-          children: []
-        };
+        let c = [],
+          s = '';
+        for (const ch of node.value) {
+          if (EmojiRegExp.test(ch)) {
+            c.push({
+              type: 'text',
+              value: s
+            });
+            s = '';
+            c.push({
+              type: 'element',
+              tagName: 'img',
+              properties: {
+                className: ['emoji'],
+                draggable: false,
+                alt: ch,
+                src: `https://twemoji.maxcdn.com/v/latest/svg/${twemoji.convert.toCodePoint(
+                  ch
+                )}.svg`
+              },
+              children: []
+            });
+          } else {
+            s += ch;
+          }
+        }
+        if (s !== '') {
+          c.push({
+            type: 'text',
+            value: s
+          });
+          s = '';
+        }
+        node.value = undefined;
+        node.type = 'element';
+        node.tagName = 'span';
+        node.properties = {};
+        node.children = c;
       }
     });
   };
