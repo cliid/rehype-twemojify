@@ -1,0 +1,43 @@
+{
+  "name": "rehype-twemojify",
+  "version": "1.0.2",
+  "sideEffects": false,
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": [
+    "index.d.ts",
+    "index.js"
+  ],
+  "keywords": [
+    "remark",
+    "emoji",
+    "twemoji",
+    "javascript",
+    "js",
+    "typescript",
+    "ts"
+  ],
+  "scripts": {},
+  "repository": "git@github.com:cliid/remark-twemoji.git",
+  "author": "cliid <cliid@protonmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/hast": "^2.3.4",
+    "@types/twemoji": "^12.1.2",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "hast": "^1.0.0",
+    "twemoji": "^13.1.0",
+    "unified": "^10.1.0",
+    "unist-util-visit": "^4.1.0"
+  }
+}
