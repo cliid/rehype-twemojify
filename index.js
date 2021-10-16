@@ -18,7 +18,7 @@ const EmojiRegExp = new RegExp(
  */
 export default function rehypeTwemojify(options = {}) {
   return (tree) => {
-    visit(tree, 'Literal', (node) => {
+    visit(tree, 'text', (node) => {
       if (EmojiRegExp.test(node.value)) {
         node = {
           type: 'element',
