@@ -33,12 +33,12 @@ export default function rehypeTwemojify(options = {}) {
               type: 'element',
               tagName: 'img',
               properties: {
-                className: ['emoji'],
+                className: [options.className ?? 'emoji'],
                 draggable: false,
                 alt: ch,
-                src: `https://twemoji.maxcdn.com/v/latest/svg/${twemoji.convert.toCodePoint(
-                  ch
-                )}.svg`
+                src: `${options.base ?? 'https://twemoji.maxcdn.com/v/latest/'}/${
+                  options.ext === '.svg' ? 'svg' : options.size
+                }/${twemoji.convert.toCodePoint(ch)}${options.ext ?? '.svg'}`
               },
               children: []
             });
