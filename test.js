@@ -2,9 +2,11 @@
  * @typedef {import('hast').Root} Root
  * @typedef {import('twemoji').ParseObject & { params: { [key: string]: any } }} Options
  */
-/**
- * @type {Options} options
- */
+
+import emojiRegex from 'emoji-regex';
+import runes from 'runes2';
+import twemoji from 'twemoji';
+
 const options = {
   params: {
     w: 3840,
@@ -12,10 +14,11 @@ const options = {
   }
 };
 
-let params = '';
-if (options.params) params += '?';
-for (const key in options.params) {
-  params += `${key}=${options.params[key]}&`;
+const regex = emojiRegex();
+
+console.log(!!'🇩🇪'.match(regex));
+console.log(twemoji.convert.toCodePoint('🇩🇪'));
+
+for (let c of runes('🇩🇪')) {
+  console.log(c);
 }
-params = params.substr(0, params.length - 1);
-console.log(params);
