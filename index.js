@@ -4,11 +4,12 @@
  * @typedef {import('twemoji').ParseObject & { params: { [key: string]: any; isNext: boolean } }} Options
  */
 import emojiRegex from 'emoji-regex';
-import runes from 'runes2';
+import GraphemeSplitter from 'grapheme-splitter';
 import twemoji from 'twemoji';
 import { visit } from 'unist-util-visit';
 
 const regex = emojiRegex();
+const splitter = new GraphemeSplitter();
 
 /**
  * Plugin to twemoji-fy ordinary emojis in HTML.
@@ -21,7 +22,7 @@ export default function rehypeTwemojify(options = {}) {
       if (node.value.match(regex)) {
         let c = [],
           s = '';
-        for (const ch of runes(node.value)) {
+        for (const ch of splitter.splitGraphemes(node.value)) {
           if (ch.match(regex)) {
             c.push({
               type: 'text',

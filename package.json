@@ -19,7 +19,7 @@
     "ts"
   ],
   "scripts": {},
-  "repository": "git@github.com:cliid/remark-twemoji.git",
+  "repository": "git@github.com:cliid/rehype-twemojify.git",
   "author": "cliid <cliid@protonmail.com>",
   "license": "MIT",
   "devDependencies": {
@@ -32,12 +32,13 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
     "prettier": "^2.4.1",
+    "rehype": "^12.0.0",
     "typescript": "^4.4.4"
   },
   "dependencies": {
     "emoji-regex": "^10.0.0",
+    "grapheme-splitter": "^1.0.4",
     "hast": "^1.0.0",
-    "runes2": "^0.4.15",
     "twemoji": "^13.1.0",
     "unified": "^10.1.0",
     "unist-util-visit": "^4.1.0"

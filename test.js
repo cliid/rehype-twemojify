@@ -4,7 +4,7 @@
  */
 
 import emojiRegex from 'emoji-regex';
-import runes from 'runes2';
+import GraphemeSplitter from 'grapheme-splitter';
 import twemoji from 'twemoji';
 
 const options = {
@@ -15,10 +15,11 @@ const options = {
 };
 
 const regex = emojiRegex();
+const splitter = new GraphemeSplitter();
 
-console.log(!!'🇩🇪'.match(regex));
-console.log(twemoji.convert.toCodePoint('🇩🇪'));
+console.log(!!'🏴󠁧󠁢󠁷󠁬󠁳󠁿'.match(regex));
+console.log(twemoji.convert.toCodePoint('🏴󠁧󠁢󠁷󠁬󠁳󠁿'));
 
-for (let c of runes('🇩🇪')) {
+for (let c of splitter.splitGraphemes('🏴󠁧󠁢󠁷󠁬󠁳󠁿')) {
   console.log(c);
 }
