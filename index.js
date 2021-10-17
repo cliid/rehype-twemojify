@@ -36,8 +36,8 @@ export default function rehypeTwemojify(options = {}) {
                 className: [options.className ?? 'emoji'],
                 draggable: false,
                 alt: ch,
-                src: `${options.base ?? 'https://twemoji.maxcdn.com/v/latest/'}/${
-                  options.ext === '.svg' ? 'svg' : options.size
+                src: `${options.base ?? 'https://twemoji.maxcdn.com/v/latest'}/${
+                  options.ext === '.svg' || undefined ? 'svg' : options.size ?? '72x72'
                 }/${twemoji.convert.toCodePoint(ch)}${options.ext ?? '.svg'}`
               },
               children: []
