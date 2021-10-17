@@ -37,8 +37,8 @@ export default function rehypeTwemojify(options = {}) {
                 draggable: false,
                 alt: ch,
                 src: `${options.base ?? 'https://twemoji.maxcdn.com/v/latest'}/${
-                  options.ext === '.svg' || undefined ? 'svg' : options.size ?? '72x72'
-                }/${twemoji.convert.toCodePoint(ch)}${options.ext ?? '.svg'}`
+                  options.folder ?? options.size ?? '72x72'
+                }/${twemoji.convert.toCodePoint(ch)}${options.ext ?? '.png'}`
               },
               children: []
             });
