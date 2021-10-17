@@ -7,4 +7,7 @@ export default function rehypeTwemojify(
   options?: void | Options | undefined
 ): void | import('unified').Transformer<import('hast').Root, import('hast').Root>;
 export type Root = import('hast').Root;
-export type Options = import('twemoji').ParseObject;
+export type Options = import('twemoji').ParseObject & { params: { [key: string]: any } };
+
+const d: Options;
+d.params;

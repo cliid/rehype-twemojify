@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /**
  * @typedef {import('hast').Root} Root
- * @typedef {import('twemoji').ParseObject} Options
+ * @typedef {import('twemoji').ParseObject & { params: { [key: string]: any } }} Options
  */
 import twemoji from 'twemoji';
 import { visit } from 'unist-util-visit';
@@ -29,6 +29,12 @@ export default function rehypeTwemojify(options = {}) {
               value: s
             });
             s = '';
+            let params = '';
+            if (options.params) params += '?';
+            for (const key in options.params) {
+              params += `${key}=${options.params[key]}&`;
+            }
+            params = params.substr(0, params.length - 1);
             c.push({
               type: 'element',
               tagName: 'img',
@@ -38,7 +44,7 @@ export default function rehypeTwemojify(options = {}) {
                 alt: ch,
                 src: `${options.base ?? 'https://twemoji.maxcdn.com/v/latest'}/${
                   options.folder ?? options.size ?? '72x72'
-                }/${twemoji.convert.toCodePoint(ch)}${options.ext ?? '.png'}`
+                }/${twemoji.convert.toCodePoint(ch)}${options.ext ?? '.png'}${params}`
               },
               children: []
             });
