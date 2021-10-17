@@ -3,24 +3,26 @@
  * @typedef {import('hast').Root} Root
  * @typedef {import('twemoji').ParseObject & { params: { [key: string]: any; isNext: boolean } }} Options
  */
+import emojiRegex from 'emoji-regex';
 import runes from 'runes2';
 import twemoji from 'twemoji';
-import EmojiRegExp from 'twemoji-parser/dist/lib/regex.js';
 import { visit } from 'unist-util-visit';
 
+const regex = emojiRegex();
+
 /**
- * Plugin to twemoji-fy HTML.
+ * Plugin to twemoji-fy ordinary emojis in HTML.
  *
  * @type {import('unified').Plugin<[Options?]|void[], Root>}
  */
 export default function rehypeTwemojify(options = {}) {
   return (tree) => {
     visit(tree, 'text', (node) => {
-      if (EmojiRegExp.test(node.value)) {
+      if (node.value.match(regex)) {
         let c = [],
           s = '';
         for (const ch of runes(node.value)) {
-          if (EmojiRegExp.test(ch)) {
+          if (ch.match(regex)) {
             c.push({
               type: 'text',
               value: s
