@@ -6,6 +6,7 @@
     "source.fixAll.format": true,
     "source.organizeImports": true
   },
+  "editor.maxTokenizationLineLength": 2000000,
   "eslint.alwaysShowStatus": true,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",

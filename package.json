@@ -1,14 +1,7 @@
 {
   "name": "rehype-twemojify",
   "version": "2.0.1",
-  "sideEffects": false,
   "type": "module",
-  "main": "index.js",
-  "types": "index.d.ts",
-  "files": [
-    "index.d.ts",
-    "index.js"
-  ],
   "keywords": [
     "remark",
     "emoji",
@@ -18,7 +11,16 @@
     "typescript",
     "ts"
   ],
-  "scripts": {},
+  "exports": {
+    ".": "./index.js",
+    "./index": "./index.js",
+    "./index.js": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "generate": "node generate-html.js"
+  },
   "repository": "git@github.com:cliid/rehype-twemojify.git",
   "author": "cliid <cliid@protonmail.com>",
   "license": "MIT",
@@ -31,9 +33,18 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.2",
+    "jest": "^27.3.1",
     "prettier": "^2.4.1",
     "rehype": "^12.0.0",
-    "typescript": "^4.4.4"
+    "rehype-format": "^4.0.0",
+    "rehype-parse": "^8.0.3",
+    "rehype-preset-minify": "^6.0.0",
+    "remark-parse": "^10.0.0",
+    "remark-rehype": "^10.0.0",
+    "to-vfile": "^7.2.2",
+    "typescript": "^4.4.4",
+    "unist-util-remove-position": "^4.0.1",
+    "vfile-reporter": "^7.0.2"
   },
   "dependencies": {
     "emoji-regex": "^10.0.0",
