@@ -1,5 +1,5 @@
 /**
- * @typedef {import('twemoji').ParseObject & { framework?: string; params: { [key: string]: string | number; } }} Options
+ * @typedef {import('twemoji').ParseObject & { framework?: string; exclude?: Array<string>; params: { [key: string]: string | number; } }} Options
  * @typedef {(file: string; options: void | Options) => void} Runner
  */
 import fs from 'fs';
@@ -22,7 +22,4 @@ const generate = (file, options) => {
     });
 };
 
-// tests
-
-generate('massive');
-generate('svg', { ext: '.svg', size: 'svg' });
+generate('exclude', { exclude: ['©', '®', '™', '℗'] });

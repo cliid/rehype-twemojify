@@ -52,6 +52,6 @@
     "hast": "^1.0.0",
     "twemoji": "^13.1.0",
     "unified": "^10.1.0",
-    "unist-util-visit": "^4.1.0"
+    "unist-util-map": "^3.0.0"
   }
 }

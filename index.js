@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 /**
  * @typedef {import('hast').Root} Root
- * @typedef {import('twemoji').ParseObject & { framework?: string; params: { [key: string]: string | number; } }} Options
+ * @typedef {import('twemoji').ParseObject & { framework?: string; exclude?: Array<string>; params: { [key: string]: string | number; } }} Options
  * @typedef {(options: void | Options; ch: string) => string} Converter
  * @typedef {(params: { [key: string]: string | number; }) => string} Squasher
  */
 import emojiRegex from 'emoji-regex';
 import GraphemeSplitter from 'grapheme-splitter';
 import twemoji from 'twemoji';
-import { visit } from 'unist-util-visit';
+import { map } from 'unist-util-map';
 
 const regex = emojiRegex();
 const splitter = new GraphemeSplitter();
@@ -70,48 +70,53 @@ const frameworkURL = (options, ch) => {
  * @type {import('unified').Plugin<[Options?]|void[], Root>}
  */
 export default function rehypeTwemojify(options) {
-  return (tree) => {
-    visit(tree, 'text', (node) => {
-      if (node.value.match(regex)) {
-        let c = [],
-          s = '';
-        for (const ch of splitter.splitGraphemes(node.value)) {
-          if (ch.match(regex)) {
-            c.push({
-              type: 'text',
-              value: s
-            });
-            s = '';
+  const exclude = (options && options.exclude) ?? [];
+  return (tree) =>
+    map(tree, (node) => {
+      if (node.type !== 'text' || !regex.test(node.value)) {
+        return node;
+      }
 
-            c.push({
-              type: 'element',
-              tagName: 'img',
-              properties: {
-                className: [(options && options.className) ?? 'emoji'],
-                draggable: 'false',
-                alt: ch,
-                decoding: 'async',
-                src: frameworkURL(options, ch)
-              },
-              children: []
-            });
-          } else {
-            s += ch;
-          }
-        }
-        if (s !== '') {
+      let c = [],
+        s = '';
+      for (const ch of splitter.splitGraphemes(node.value)) {
+        // console.log(ch + ': ' + (!ch.match(regex) || exclude.indexOf(ch) !== -1));
+        if (!ch.match(regex) || exclude.indexOf(ch) !== -1) {
+          s += ch;
+        } else {
           c.push({
             type: 'text',
             value: s
           });
           s = '';
+
+          c.push({
+            type: 'element',
+            tagName: 'img',
+            properties: {
+              className: [(options && options.className) ?? 'emoji'],
+              draggable: 'false',
+              alt: ch,
+              decoding: 'async',
+              src: frameworkURL(options, ch)
+            },
+            children: []
+          });
         }
-        delete node.value;
-        node.type = 'element';
-        node.tagName = 'span';
-        node.properties = {};
-        node.children = c;
       }
+
+      if (s !== '') {
+        c.push({
+          type: 'text',
+          value: s
+        });
+        s = '';
+      }
+
+      return {
+        type: 'element',
+        tagName: 'span',
+        children: c
+      };
     });
-  };
 }
