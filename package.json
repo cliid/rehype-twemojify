@@ -1,6 +1,6 @@
 {
   "name": "rehype-twemojify",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "type": "module",
   "keywords": [
     "remark",
@@ -11,47 +11,76 @@
     "typescript",
     "ts"
   ],
+  "source": "./src/index.ts",
+  "module": "./dist/index.js",
   "exports": {
-    ".": "./index.js",
-    "./index": "./index.js",
-    "./index.js": "./index.js",
-    "./package.json": "./package.json"
+    ".": {
+      "import": "./dist/index.js"
+    }
   },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "generate": "node generate-html.js"
+    "build": "parcel build",
+    "clean": "rimraf dist .parcel-cache",
+    "coverage": "vitest run --coverage",
+    "generate": "node --loader=ts-node/esm --experimental-specifier-resolution=node .scripts/generate-html.ts",
+    "lint": "eslint",
+    "test": "vitest run",
+    "watch": "parcel watch",
+    "ci": "pnpm build && pnpm test && pnpm lint"
   },
-  "repository": "git@github.com:cliid/rehype-twemojify.git",
+  "repository": "git@github.com:clowdr/rehype-twemojify.git",
+  "homepage": "https://github.com/clowdr/rehype-twemojify",
   "author": "cliid <cliid@protonmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "@types/hast": "^2.3.4",
+    "@parcel/config-default": "^2.2.1",
+    "@parcel/core": "^2.2.1",
+    "@parcel/packager-ts": "^2.2.1",
+    "@parcel/transformer-typescript-types": "^2.2.1",
+    "@parcel/validator-typescript": "^2.2.1",
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.13",
     "@types/twemoji": "^12.1.2",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^8.0.1",
-    "eslint-config-airbnb-base": "^14.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.10.1",
+    "@typescript-eslint/parser": "^5.10.1",
+    "c8": "^7.11.0",
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.2",
-    "jest": "^27.3.1",
-    "prettier": "^2.4.1",
-    "rehype": "^12.0.0",
-    "rehype-format": "^4.0.0",
-    "rehype-parse": "^8.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "parcel": "^2.2.1",
+    "prettier": "^2.5.1",
+    "rehype": "^12.0.1",
+    "rehype-format": "^4.0.1",
+    "rehype-parse": "^8.0.4",
     "rehype-preset-minify": "^6.0.0",
-    "remark-parse": "^10.0.0",
-    "remark-rehype": "^10.0.0",
-    "to-vfile": "^7.2.2",
-    "typescript": "^4.4.4",
+    "remark-parse": "^10.0.1",
+    "remark-rehype": "^10.1.0",
+    "rimraf": "^3.0.2",
+    "to-vfile": "^7.2.3",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5",
     "unist-util-remove-position": "^4.0.1",
-    "vfile-reporter": "^7.0.2"
+    "vfile-reporter": "^7.0.3",
+    "vite": "^2.7.13",
+    "vitest": "^0.2.5"
   },
   "dependencies": {
+    "@types/hast": "^2.3.4",
     "emoji-regex": "^10.0.0",
-    "grapheme-splitter": "^1.0.4",
-    "hast": "^1.0.0",
+    "postcss": "^8.4.5",
+    "string-replace-to-array": "^2.1.0",
+    "ts-essentials": "^9.1.2",
     "twemoji": "^13.1.0",
-    "unified": "^10.1.0",
+    "unified": "^10.1.1",
     "unist-util-map": "^3.0.0"
-  }
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@6.29.0"
 }
