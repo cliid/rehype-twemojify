@@ -1,5 +1,5 @@
 import emojiRegex from 'emoji-regex';
-import type { Content, ElementContent, Root } from 'hast';
+import type { Content, ElementContent, Root, RootContent } from 'hast';
 import replaceToArray from 'string-replace-to-array';
 import twemoji from 'twemoji';
 import type { Plugin, Transformer } from 'unified';
@@ -74,49 +74,50 @@ function toUrl(emoji: string, options: Options) {
   }
 }
 
-function makeTranformer(options: Options): Transformer<Root, Root> {
+function makeTransformer(options: Options): Transformer<Root, Root> {
   return (tree: Root) => {
-    const mappedChildren = tree.children.map((child) =>
-      map(child, (node) => {
-        if (node.type !== 'text' || !regex.test(node.value)) {
-          return node;
-        }
+    const mappedChildren = tree.children.map(
+      (child) =>
+        map(child, (node: RootContent) => {
+          if (node.type !== 'text' || !regex.test(node.value)) {
+            return node;
+          }
 
-        const children = replaceToArray(node.value, regex, (text) => ({
-          emoji: text
-        })).map<ElementContent>((segment) =>
-          typeof segment === 'string'
-            ? {
-                type: 'text',
-                value: segment
-              }
-            : options.exclude.includes(segment.emoji)
-            ? {
-                type: 'text',
-                value: segment.emoji
-              }
-            : {
-                type: 'element',
-                tagName: 'img',
-                properties: {
-                  className: [options.className],
-                  draggable: 'false',
-                  alt: segment.emoji,
-                  decoding: 'async',
-                  src: toUrl(segment.emoji, options)
-                },
-                children: []
-              }
-        );
+          const children = replaceToArray(node.value, regex, (text) => ({
+            emoji: text
+          })).map<ElementContent>((segment) =>
+            typeof segment === 'string'
+              ? {
+                  type: 'text',
+                  value: segment
+                }
+              : options.exclude.includes(segment.emoji)
+              ? {
+                  type: 'text',
+                  value: segment.emoji
+                }
+              : {
+                  type: 'element',
+                  tagName: 'img',
+                  properties: {
+                    className: [options.className],
+                    draggable: 'false',
+                    alt: segment.emoji,
+                    decoding: 'async',
+                    src: toUrl(segment.emoji, options)
+                  },
+                  children: []
+                }
+          );
 
-        const result: Content = {
-          type: 'element',
-          tagName: 'span',
-          children
-        };
+          const result: Content = {
+            type: 'element',
+            tagName: 'span',
+            children
+          };
 
-        return result;
-      })
+          return result;
+        }) as RootContent
     );
 
     return {
@@ -131,7 +132,7 @@ function makeTranformer(options: Options): Transformer<Root, Root> {
  */
 const rehypeTwemojify: Plugin<[UserOptions?], Root, Root> = function (userOptions) {
   const options = resolveOptions(userOptions);
-  return makeTranformer(options);
+  return makeTransformer(options);
 };
 
 export default rehypeTwemojify;
