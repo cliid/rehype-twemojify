@@ -1,0 +1,17 @@
+{
+  "include": ["./src", "./.scripts"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    // "typeRoots": ["./node_modules/@types", "./types/"],
+    "moduleResolution": "node",
+    "lib": ["ES2018", "DOM"],
+    "module": "ES2015",
+    "target": "ES2018",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "declaration": true
+  }
+}
