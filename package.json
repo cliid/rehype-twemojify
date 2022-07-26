@@ -75,7 +75,7 @@
     "postcss": "^8.4.5",
     "string-replace-to-array": "^2.1.0",
     "ts-essentials": "^9.1.2",
-    "twemoji": "^13.1.0",
+    "twemoji": "^14.0.2",
     "unified": "^10.1.1",
     "unist-util-map": "^3.0.0"
   },
