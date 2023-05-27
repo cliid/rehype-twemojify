@@ -19,9 +19,6 @@
     }
   },
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "parcel build",
     "clean": "rimraf dist .parcel-cache",
