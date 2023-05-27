@@ -29,8 +29,8 @@
     "watch": "parcel watch",
     "ci": "pnpm build && pnpm test && pnpm lint"
   },
-  "repository": "git@github.com:clowdr/rehype-twemojify.git",
-  "homepage": "https://github.com/clowdr/rehype-twemojify",
+  "repository": "git@github.com:cliid/rehype-twemojify.git",
+  "homepage": "https://github.com/cliid/rehype-twemojify",
   "author": "cliid <cliid@protonmail.com>",
   "license": "MIT",
   "devDependencies": {
