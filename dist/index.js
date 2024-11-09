@@ -1,6 +1,6 @@
+import $g8a0D$twemojiapi from "@twemoji/api";
 import $g8a0D$emojiregex from "emoji-regex";
 import $g8a0D$stringreplacetoarray from "string-replace-to-array";
-import $g8a0D$twemoji from "twemoji";
 import {map as $g8a0D$map} from "unist-util-map";
 
 
@@ -15,7 +15,7 @@ const $92ac010852f044e6$var$defaultFrameworkNextOptions = {
     }
 };
 const $92ac010852f044e6$var$defaultTwemojiOptions = {
-    baseUrl: "https://twemoji.maxcdn.com/v/latest",
+    baseUrl: "https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets",
     size: "72x72"
 };
 const $92ac010852f044e6$var$defaultOptions = {
@@ -83,7 +83,7 @@ const $c0b60add41284d2e$var$U200D = String.fromCharCode(0x200d);
  * @returns The code point at which the corresponding emoji can be found in Twemoji.
  * @example The input `'👨‍🌾'` would be converted to `'1f468-200d-1f33e'`
  */ function $c0b60add41284d2e$var$toCodePoint(emoji) {
-    return (0, $g8a0D$twemoji).convert.toCodePoint(emoji.indexOf($c0b60add41284d2e$var$U200D) < 0 ? emoji.replace($c0b60add41284d2e$var$UFE0Fg, "") : emoji);
+    return (0, $g8a0D$twemojiapi).convert.toCodePoint(emoji.indexOf($c0b60add41284d2e$var$U200D) < 0 ? emoji.replace($c0b60add41284d2e$var$UFE0Fg, "") : emoji);
 }
 function $c0b60add41284d2e$var$toBaseUrl(codePoint, options) {
     return `${options.baseUrl}/${options.size}/${codePoint}${$c0b60add41284d2e$var$sizeToExtension(options.size)}`;
@@ -109,13 +109,16 @@ function $c0b60add41284d2e$var$makeTransformer(options) {
                 if (node.type !== "text" || !$c0b60add41284d2e$var$regex.test(node.value)) return node;
                 const children = (0, $g8a0D$stringreplacetoarray)(node.value, $c0b60add41284d2e$var$regex, (text)=>({
                         emoji: text
-                    })).map((segment)=>typeof segment === "string" ? {
+                    })).map((segment)=>{
+                    if (typeof segment === "string") return {
                         type: "text",
                         value: segment
-                    } : options.exclude.includes(segment.emoji) ? {
+                    };
+                    if (options.exclude.includes(segment.emoji)) return {
                         type: "text",
                         value: segment.emoji
-                    } : {
+                    };
+                    return {
                         type: "element",
                         tagName: "img",
                         properties: {
@@ -128,10 +131,12 @@ function $c0b60add41284d2e$var$makeTransformer(options) {
                             src: $c0b60add41284d2e$var$toUrl(segment.emoji, options)
                         },
                         children: []
-                    });
+                    };
+                });
                 const result = {
                     type: "element",
                     tagName: "span",
+                    properties: {},
                     children: children
                 };
                 return result;
@@ -144,7 +149,7 @@ function $c0b60add41284d2e$var$makeTransformer(options) {
 }
 /**
  * Plugin to twemoji-fy ordinary emojis in HTML.
- */ const $c0b60add41284d2e$var$rehypeTwemojify = function(userOptions) {
+ */ const $c0b60add41284d2e$var$rehypeTwemojify = (userOptions)=>{
     const options = (0, $92ac010852f044e6$export$eeec7bfd69b39c)(userOptions);
     return $c0b60add41284d2e$var$makeTransformer(options);
 };

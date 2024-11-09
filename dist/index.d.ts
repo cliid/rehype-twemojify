@@ -3,7 +3,7 @@ import { Plugin } from "unified";
 type FrameworkNextUserOptions = {
     type: 'next';
     params?: {
-        [key: string]: any;
+        [key: string]: unknown;
     };
 };
 type FrameworkOptions = FrameworkNextUserOptions | {

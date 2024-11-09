@@ -17,9 +17,9 @@ function run(file: string, options?: UserOptions): void {
     .use(rehypePresetMinify);
 
   const input = processor.runSync(basic.parse(readSync(`./test/assets/${file}.in.html`)));
-  removePosition(input, true);
+  removePosition(input, {force: true});
   const output = basic.runSync(basic.parse(readSync(`./test/assets/${file}.out.html`)));
-  removePosition(output, true);
+  removePosition(output, {force: true});
   test(file, () => {
     expect(input).toEqual(output);
   });
