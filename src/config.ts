@@ -2,7 +2,7 @@ import { DeepRequired } from 'ts-essentials';
 
 export type FrameworkNextUserOptions = {
   type: 'next';
-  params?: { [key: string]: any };
+  params?: { [key: string]: unknown };
 };
 
 export type FrameworkOptions = FrameworkNextUserOptions | { type: 'none' };
@@ -31,7 +31,7 @@ const defaultFrameworkNextOptions: DeepRequired<FrameworkNextUserOptions> = {
 };
 
 const defaultTwemojiOptions: DeepRequired<TwemojiUserOptions> = {
-  baseUrl: 'https://twemoji.maxcdn.com/v/latest',
+  baseUrl: 'https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets',
   size: '72x72'
 };
 

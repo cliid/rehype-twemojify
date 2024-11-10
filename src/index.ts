@@ -1,7 +1,7 @@
+import twemoji from '@twemoji/api';
 import emojiRegex from 'emoji-regex';
-import type { Content, ElementContent, Root, RootContent } from 'hast';
+import type { ElementContent, Root, RootContent } from 'hast';
 import replaceToArray from 'string-replace-to-array';
-import twemoji from 'twemoji';
 import type { Plugin, Transformer } from 'unified';
 import { map } from 'unist-util-map';
 import {
@@ -85,34 +85,37 @@ function makeTransformer(options: Options): Transformer<Root, Root> {
 
           const children = replaceToArray(node.value, regex, (text) => ({
             emoji: text
-          })).map<ElementContent>((segment) =>
-            typeof segment === 'string'
-              ? {
-                  type: 'text',
-                  value: segment
-                }
-              : options.exclude.includes(segment.emoji)
-              ? {
-                  type: 'text',
-                  value: segment.emoji
-                }
-              : {
-                  type: 'element',
-                  tagName: 'img',
-                  properties: {
-                    className: [options.className],
-                    draggable: 'false',
-                    alt: segment.emoji,
-                    decoding: 'async',
-                    src: toUrl(segment.emoji, options)
-                  },
-                  children: []
-                }
-          );
+          })).map<ElementContent>((segment) => {
+            if (typeof segment === 'string') {
+              return {
+                type: 'text',
+                value: segment
+              };
+            }
+            if (options.exclude.includes(segment.emoji)) {
+              return {
+                type: 'text',
+                value: segment.emoji
+              };
+            }
+            return {
+              type: 'element',
+              tagName: 'img',
+              properties: {
+                className: [options.className],
+                draggable: 'false',
+                alt: segment.emoji,
+                decoding: 'async',
+                src: toUrl(segment.emoji, options)
+              },
+              children: []
+            };
+          });
 
-          const result: Content = {
+          const result: RootContent = {
             type: 'element',
             tagName: 'span',
+            properties: {},
             children
           };
 
@@ -130,7 +133,7 @@ function makeTransformer(options: Options): Transformer<Root, Root> {
 /**
  * Plugin to twemoji-fy ordinary emojis in HTML.
  */
-const rehypeTwemojify: Plugin<[UserOptions?], Root, Root> = function (userOptions) {
+const rehypeTwemojify: Plugin<[UserOptions?], Root, Root> = (userOptions) => {
   const options = resolveOptions(userOptions);
   return makeTransformer(options);
 };

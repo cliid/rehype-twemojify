@@ -1,10 +1,10 @@
 {
   // Run ESLint each time you save a file
   "editor.codeActionsOnSave": {
-    "source.addMissingImports": true,
-    "source.fixAll.eslint": true,
-    "source.fixAll.format": true,
-    "source.organizeImports": true
+    "source.addMissingImports": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.format": "explicit",
+    "source.organizeImports": "explicit"
   },
   "editor.maxTokenizationLineLength": 2000000,
   "eslint.alwaysShowStatus": true,
